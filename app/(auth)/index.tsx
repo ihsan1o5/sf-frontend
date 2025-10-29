@@ -64,38 +64,40 @@ const Login = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity>
-        <Typo size={18} color={Colors.light.text} style={styles.forgotPasswordText}>
+        <Typo size={18} color={Colors.light.text.default} style={styles.forgotPasswordText}>
             Forgot you password?
         </Typo>
       </TouchableOpacity>
 
       <View style={styles.signInBtnContainer}>
-        <TouchableOpacity
-            style={styles.signInBtn}
-        >
-            <Typo size={18} fontWeight="700" color={Colors.light.text}>
-                Sign In 
-            </Typo>
-            <LinearGradient
-                colors={['#F97794', '#623AA2']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.arrowBtn}
+        <Link href="/(tabs)/profile" asChild>
+            <TouchableOpacity
+                style={styles.signInBtn}
             >
-                <Ionicons
-                    name="arrow-forward"
-                    size={34}
-                    color={Colors.light.primary}
-                />
-            </LinearGradient>
-        </TouchableOpacity>
+                <Typo size={18} fontWeight="700" color={Colors.light.text.default}>
+                    Sign In 
+                </Typo>
+                <LinearGradient
+                    colors={['#F97794', '#623AA2']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.arrowBtn}
+                >
+                    <Ionicons
+                        name="arrow-forward"
+                        size={34}
+                        color={Colors.light.background}
+                    />
+                </LinearGradient>
+            </TouchableOpacity>
+        </Link>
       </View>
       <View
         style={styles.createAccountText}
       >
         <Typo 
             size={16} 
-            color={Colors.light.text}
+            color={Colors.light.text.default}
         >
             Don't have an account?
         </Typo>
@@ -125,7 +127,7 @@ export default Login
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.light.primary,
+        backgroundColor: Colors.light.background,
         flex: 1,
     },
     topImageContainer: {},
@@ -137,11 +139,11 @@ const styles = StyleSheet.create({
     helloText: {
         textAlign: 'center',
         fontWeight: "500",
-        color: Colors.light.text
+        color: Colors.light.text.default
     },
     signInText: {
         textAlign: 'center',
-        color: Colors.light.text,
+        color: Colors.light.text.default,
         marginBottom: 30,
     },
     inputContainer: {

@@ -93,7 +93,7 @@ const Register = () => {
         <TouchableOpacity
             style={styles.signInBtn}
         >
-            <Typo size={18} fontWeight="700" color={Colors.light.text}>
+            <Typo size={18} fontWeight="700" color={Colors.light.text.default}>
                 Sign Up 
             </Typo>
             <LinearGradient
@@ -105,7 +105,7 @@ const Register = () => {
                 <Ionicons
                     name="arrow-forward"
                     size={34}
-                    color={Colors.light.primary}
+                    color={Colors.light.background}
                 />
             </LinearGradient>
         </TouchableOpacity>
@@ -147,7 +147,7 @@ const Register = () => {
       >
         <Typo 
             size={16} 
-            color={Colors.light.text}
+            color={Colors.light.text.default}
         >
             Already have an account?
         </Typo>
@@ -179,7 +179,7 @@ export default Register
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.light.primary,
+        backgroundColor: Colors.light.background,
         flex: 1,
     },
     topImageContainer: {},
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     createAccountTitleText: {
         textAlign: 'center',
         fontWeight: "500",
-        color: Colors.light.text
+        color: Colors.light.text.default
     },
 
     inputContainer: {
