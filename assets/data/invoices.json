@@ -1,0 +1,42 @@
+[
+    {
+        "title": "School Fee Invoice - March 2024",
+        "invoice_number": "INV-2024-03-001"
+    },
+    {
+        "title": "School Fee Invoice - April 2024",
+        "invoice_number": "INV-2024-04-001"
+    },
+    {
+        "title": "School Fee Invoice - May 2024",
+        "invoice_number": "INV-2024-05-001"
+    },
+    {
+        "title": "School Fee Invoice - Jun 2024",
+        "invoice_number": "INV-2024-06-001"
+    },
+    {
+        "title": "School Fee Invoice - July 2024",
+        "invoice_number": "INV-2024-07-001"
+    },
+    {
+        "title": "School Fee Invoice - August 2024",
+        "invoice_number": "INV-2024-08-001"
+    },
+    {
+        "title": "School Fee Invoice - September 2024",
+        "invoice_number": "INV-2024-09-001"
+    },
+    {
+        "title": "School Fee Invoice - October 2024",
+        "invoice_number": "INV-2024-10-001"
+    },
+    {
+        "title": "School Fee Invoice - November 2024",
+        "invoice_number": "INV-2024-11-001"
+    },
+    {
+        "title": "School Fee Invoice - December 2024",
+        "invoice_number": "INV-2024-12-001"
+    }
+]

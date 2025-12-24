@@ -15,7 +15,8 @@ export const Colors = {
     text: {
         default: '#11181C',
         light: '#FFFFFF',
-        dark: '#151718'
+        dark: '#151718',
+        gray: '#9BA1A6'
     },
     background: '#FFFFFF',
     tint: tintColorLight,
@@ -30,7 +31,8 @@ export const Colors = {
     text: {
         default: '#ECEDEE',
         light: '#FFFFFF',
-        dark: '#151718'
+        dark: '#151718',
+        gray: '#9BA1A6'
     },
     background: '#151718',
     tint: tintColorDark,

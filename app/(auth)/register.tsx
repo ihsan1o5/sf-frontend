@@ -1,6 +1,7 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
 import Typo from '@/components/Typo';
 import { Colors } from '@/constants/theme';
+import { useAuthStore } from '@/store/authStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
@@ -9,6 +10,13 @@ import { Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, View }
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const {user, sayHello} = useAuthStore();
+
+    console.log("user is here: ", user);
+
+    const handleSignUp = () => {
+        sayHello();
+    }
 
 
   return (
@@ -37,7 +45,31 @@ const Register = () => {
         />
         <TextInput 
             style={styles.textInput} 
-            placeholder="Username"
+            placeholder="Full Name"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons 
+            name="person-outline" 
+            size={24} 
+            color={Colors.light.icon} 
+        />
+        <TextInput 
+            style={styles.textInput} 
+            placeholder="CNIC (without dashes)"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons 
+            name="mail-outline" 
+            size={24} 
+            color={Colors.light.icon} 
+        />
+        <TextInput 
+            style={styles.textInput} 
+            placeholder="Email"
         />
       </View>
 
@@ -63,35 +95,10 @@ const Register = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.inputContainer}>
-        <Ionicons 
-            name="mail-outline" 
-            size={24} 
-            color={Colors.light.icon} 
-        />
-        <TextInput 
-            style={styles.textInput} 
-            placeholder="Email Address"
-            keyboardType='email-address'
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Ionicons 
-            name="phone-portrait-outline" 
-            size={24} 
-            color={Colors.light.icon} 
-        />
-        <TextInput 
-            style={styles.textInput} 
-            placeholder="Mobile Number"
-            keyboardType='phone-pad'
-        />
-      </View>
-
       <View style={styles.signInBtnContainer}>
         <TouchableOpacity
             style={styles.signInBtn}
+            onPress={handleSignUp}
         >
             <Typo size={18} fontWeight="700" color={Colors.light.text.default}>
                 Sign Up 
@@ -111,7 +118,7 @@ const Register = () => {
         </TouchableOpacity>
       </View>
 
-      <View
+      {/* <View
         style={styles.socialLoginContainer}
       >
         <TouchableOpacity
@@ -140,7 +147,7 @@ const Register = () => {
                 style={{ width: 35, height: 35 }}
             />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View
         style={styles.alreadyHaveAccountText}
@@ -233,7 +240,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 5,
         justifyContent: 'center',
-        marginVertical: '2%',
+        marginVertical: '10%',
         height: '100%'
     },
     bottomLeftVectorContainer: {
@@ -252,7 +259,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10,
-        paddingVertical: 20,
+        paddingVertical: 40,
     },
     socialLoginBtn: {
         justifyContent: 'center',

@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { TextProps, TextStyle, ViewStyle } from "react-native";
 
 export type ScreenWrapperProps = {
@@ -13,3 +14,22 @@ export type TypoProps = {
     style?: TextStyle;
     textProps?: TextProps;
 };
+
+export type CardProps = {
+    color?: string;
+    icon?: keyof typeof Ionicons.glyphMap;
+    title?: string;
+    caption?: string;
+};
+
+export type QuickActionBtnProps = {
+    icon?: keyof typeof Ionicons.glyphMap;
+    text?: string;
+}
+
+export type HorizontalWidgetProps = {
+    title?: string,
+    subTitle?: string,
+    icon?: keyof typeof Ionicons.glyphMap;
+    date?: string;
+}

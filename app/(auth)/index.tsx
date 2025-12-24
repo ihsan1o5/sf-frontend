@@ -39,7 +39,7 @@ const Login = () => {
         />
         <TextInput 
             style={styles.textInput} 
-            placeholder="Username"
+            placeholder="Email"
         />
       </View>
       <View style={styles.inputContainer}>

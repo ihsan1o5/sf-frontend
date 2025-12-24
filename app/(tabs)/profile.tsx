@@ -1,55 +1,44 @@
+import profileItems from '@/assets/data/profile-items.json'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
 import { Colors } from '@/constants/theme'
+import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Link } from 'expo-router'
 import React from 'react'
 import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import userData from '../../assets/data/users.json'
 
 const Profile = () => {
-    const data = userData;
+    const profileWidgets = profileItems;
 
     const renderItem = ({item}: any) => (
         <View>
-            <View
+            <TouchableOpacity
                 style={styles.itemWidget}
             >
-                <Typo size={20} fontWeight="600" color='black'>
-                    Name: {item.first_name} {item.last_name}
-                </Typo>
-            </View>
-
-            <View
-                style={styles.itemWidget}
-            >
-                <Typo size={20} fontWeight="600" color='black'>
-                    Username: {item.username}
-                </Typo>
-            </View>
-
-            <View
-                style={styles.itemWidget}
-            >
-                <Typo size={20} fontWeight="600" color='black'>
-                    Email: {item.email}
-                </Typo>
-            </View>
-
-            <View
-                style={styles.itemWidget}
-            >
-                <Typo size={20} fontWeight="600" color='black'>
-                    Phone: {item.phone}
-                </Typo>
-            </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Ionicons 
+                        name={item.icon} 
+                        size={24} 
+                        color={Colors.light.icon}
+                    />
+                    <Typo size={20} fontWeight="600" color='black'>
+                        {item.title}
+                    </Typo>
+                </View>
+                <Ionicons 
+                    name="chevron-forward-outline"
+                    size={24}
+                    color={Colors.light.icon}
+                />
+            </TouchableOpacity>
         </View>
     );
 
   return (
     <ScreenWrapper>
         <LinearGradient 
-            colors={['#F97794', '#623AA2']}
+            colors={[Colors.light.primary, Colors.light.secondary]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             style={styles.profileImageContainer}
@@ -61,6 +50,14 @@ const Profile = () => {
                     resizeMode="cover"
                 />
             </View>
+            <View style={{ marginTop: 10, alignItems: 'center', marginBottom: 30 }}>
+                <Typo size={18} fontWeight="700" color={Colors.light.text.light}>
+                    John Doe 
+                </Typo>
+                <Typo size={18} color={Colors.light.text.gray}>
+                    15606-12345AB-C
+                </Typo>
+            </View>
         </LinearGradient>
 
         <View style={styles.profileDetailsContainer}>
@@ -68,10 +65,11 @@ const Profile = () => {
                 style={styles.detailsWidget}
             >
                 <FlatList 
-                    data={[data[0]]}
-                    keyExtractor={(item) => item.phone.toString()}
+                    data={profileWidgets}
+                    keyExtractor={(item) => item.title.toString()}
                     renderItem={renderItem}
                     contentContainerStyle={{ paddingBottom: 20 }}
+                    showsVerticalScrollIndicator={false}
 
                     ListFooterComponent={
                         <Link href='/(auth)' asChild>
@@ -83,8 +81,6 @@ const Profile = () => {
                         </Link>
                     }
                 />
-
-                
             </View>
         </View>
     </ScreenWrapper>
@@ -125,6 +121,9 @@ const styles = StyleSheet.create({
         overflow: 'hidden',             // ensures border radius works
     },
     itemWidget: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         marginVertical: 10,
         backgroundColor: Colors.light.background,
         elevation: 5,
