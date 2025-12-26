@@ -4,18 +4,24 @@ import { Colors } from '@/constants/theme';
 import { useAuthStore } from '@/store/authStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const {user, sayHello} = useAuthStore();
+    const { user, token, isLoading, register } = useAuthStore();
+    const router = useRouter();
 
-    console.log("user is here: ", user);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [cnic, setCnic] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleSignUp = () => {
-        sayHello();
+    const handleSignUp = async () => {
+        const result = await register(name, email, cnic, password);
+
+        if (!result.success) Alert.alert('Error', result.error);
     }
 
 
@@ -46,18 +52,8 @@ const Register = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Full Name"
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Ionicons 
-            name="person-outline" 
-            size={24} 
-            color={Colors.light.icon} 
-        />
-        <TextInput 
-            style={styles.textInput} 
-            placeholder="CNIC (without dashes)"
+            value={name}
+            onChangeText={setName}
         />
       </View>
 
@@ -70,6 +66,22 @@ const Register = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons 
+            name="person-outline" 
+            size={24} 
+            color={Colors.light.icon} 
+        />
+        <TextInput 
+            style={styles.textInput} 
+            placeholder="CNIC (without dashes)"
+            value={cnic}
+            onChangeText={setCnic}
         />
       </View>
 
@@ -83,6 +95,8 @@ const Register = () => {
             style={styles.textInput} 
             placeholder="Password"
             secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
         />
         <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
