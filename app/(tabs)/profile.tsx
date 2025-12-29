@@ -4,12 +4,38 @@ import Typo from '@/components/Typo'
 import { Colors } from '@/constants/theme'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Link } from 'expo-router'
+import { useRouter } from 'expo-router'
 import React from 'react'
-import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+
+import { useAuthStore } from '@/store/authStore'
 
 const Profile = () => {
     const profileWidgets = profileItems;
+    const router = useRouter();
+    const { logout } = useAuthStore();
+
+    const handleLogout = () => {
+        Alert.alert(
+          "Warning",
+          "Are you sure you want to logout?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel", // 👈 safe dismiss
+            },
+            {
+              text: "Yes, Logout",
+              style: "destructive",
+              onPress: async () => {
+                await logout();                 // 👈 clear auth state
+                router.replace("/(auth)");      // 👈 go to login
+              },
+            },
+          ],
+          { cancelable: true }
+        );
+    };      
 
     const renderItem = ({item}: any) => (
         <View>
@@ -72,13 +98,12 @@ const Profile = () => {
                     showsVerticalScrollIndicator={false}
 
                     ListFooterComponent={
-                        <Link href='/(auth)' asChild>
-                            <TouchableOpacity
-                                style={styles.logOutBtn}
-                            >
-                                <Typo size={24} fontWeight="700" color={Colors.light.text.light}>LogOut</Typo>
-                            </TouchableOpacity>
-                        </Link>
+                        <TouchableOpacity
+                            style={styles.logOutBtn}
+                            onPress={handleLogout}
+                        >
+                            <Typo size={24} fontWeight="700" color={Colors.light.text.light}>LogOut</Typo>
+                        </TouchableOpacity>
                     }
                 />
             </View>

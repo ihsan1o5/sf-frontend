@@ -1,6 +1,4 @@
 import Card from '@/components/Card'
-import HorizontalWidget from '@/components/HorizontalWidget'
-import QuickActionBtn from '@/components/QuickActionBtn'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
 import { Colors } from '@/constants/theme'
@@ -65,91 +63,57 @@ const Home = () => {
                     style={styles.cardContainer}
                 >
                     <Card 
-                        color={Colors.light.secondary}
+                        color={Colors.light.primary}
                         icon="document-attach"
-                        title="1,284"
-                        caption="Total Payable"
+                        title="2,184"
+                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
+                        beneficiary="ABC School"
+                        dueDate="12 Dec 2024"
                     />
 
                     <Card 
                         color={Colors.light.primary}
                         icon="document-attach"
                         title="2,184"
-                        caption="Receivable"
+                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
+                        beneficiary="ABC School"
+                        dueDate="12 Dec 2024"
                     />
-                </View>
 
-                <View style={styles.cardContainer}>
                     <Card 
                         color={Colors.light.primary}
                         icon="document-attach"
-                        title="1,284"
-                        caption="Pending Payables"
+                        title="2,184"
+                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
+                        beneficiary="ABC School"
+                        dueDate="12 Dec 2024"
                     />
 
                     <Card 
-                        color={Colors.light.secondary}
+                        color={Colors.light.primary}
                         icon="document-attach"
                         title="2,184"
-                        caption="Pending Receivables"
-                    />
-                </View>
-
-                <Typo 
-                    size={20} 
-                    fontWeight='800' 
-                    color={Colors.light.text.default}
-                    style={styles.quickActionText}
-                >
-                    Quick Actions
-                </Typo>
-                <View style={styles.quickActionsBtnContainer}>
-                    <QuickActionBtn 
-                        icon='add'
-                        text='Get Paid'
+                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
+                        beneficiary="ABC School"
+                        dueDate="12 Dec 2024"
                     />
 
-                    <QuickActionBtn 
-                        icon='cloud-upload-outline'
-                        text='Upload'
+                    <Card 
+                        color={Colors.light.primary}
+                        icon="document-attach"
+                        title="2,184"
+                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
+                        beneficiary="ABC School"
+                        dueDate="12 Dec 2024"
                     />
 
-                    <QuickActionBtn 
-                        icon='cash-outline'
-                        text='Payments'
-                    />
-                </View>
-
-                <Typo 
-                    size={20} 
-                    fontWeight='800' 
-                    color={Colors.light.text.default}
-                    style={styles.quickActionText}
-                >
-                    Recent Payments
-                </Typo>
-                <View
-                    style={styles.recentActivityContainer}
-                >
-                    <HorizontalWidget 
-                        title='School Fee - Jan 2024'
-                        subTitle='Paid'
-                        icon='chevron-forward'
-                        date='1 Jan'
-                    />
-
-                    <HorizontalWidget 
-                        title='School Fee - Fab 2024'
-                        subTitle='Pending'
-                        icon='chevron-forward'
-                        date='12 Fab'
-                    />
-
-                    <HorizontalWidget 
-                        title='School Fee - Mar 2024'
-                        subTitle='Over Due'
-                        icon='chevron-forward'
-                        date='5 Mar'
+                    <Card 
+                        color={Colors.light.primary}
+                        icon="document-attach"
+                        title="2,184"
+                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
+                        beneficiary="ABC School"
+                        dueDate="12 Dec 2024"
                     />
                 </View>
                 
@@ -211,7 +175,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     cardContainer: {
-        flexDirection: 'row', 
+        flexDirection: 'column', 
         justifyContent: 'space-between',
         gap: 10,
         paddingHorizontal: 5,

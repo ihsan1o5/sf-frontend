@@ -6,7 +6,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -19,10 +28,31 @@ const Register = () => {
     const [password, setPassword] = useState('');
 
     const handleSignUp = async () => {
+        if (!name || !email || !cnic || !password) {
+          Alert.alert("Validation Error", "All fields are required");
+          return;
+        }
+      
         const result = await register(name, email, cnic, password);
-
-        if (!result.success) Alert.alert('Error', result.error);
-    }
+      
+        if (!result.success) {
+          Alert.alert("Error", result.error);
+          return;
+        }
+      
+        // ✅ SUCCESS ALERT WITH REDIRECT
+        Alert.alert(
+          "Success",
+          "Account created successfully",
+          [
+            {
+              text: "OK",
+              onPress: () => router.replace("/(auth)"), // 👈 login screen
+            },
+          ],
+          { cancelable: false }
+        );
+    };      
 
 
   return (
@@ -68,6 +98,9 @@ const Register = () => {
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
         />
       </View>
 
@@ -82,6 +115,7 @@ const Register = () => {
             placeholder="CNIC (without dashes)"
             value={cnic}
             onChangeText={setCnic}
+            keyboardType="number-pad"
         />
       </View>
 
@@ -113,6 +147,7 @@ const Register = () => {
         <TouchableOpacity
             style={styles.signInBtn}
             onPress={handleSignUp}
+            disabled={isLoading}
         >
             <Typo size={18} fontWeight="700" color={Colors.light.text.default}>
                 Sign Up 
@@ -192,6 +227,11 @@ const Register = () => {
             style={styles.bottomLeftVector}
         />
       </View>
+      {isLoading && (
+        <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="#F97794" />
+        </View>
+      )}
     </ScreenWrapper>
   )
 }
@@ -283,5 +323,17 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: Colors.light.background,
         elevation: 8,
-    }
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(255,255,255,0.9)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,     // iOS
+        elevation: 20,    // Android 🔑
+    },      
 })

@@ -1,14 +1,47 @@
 import ScreenWrapper from '@/components/ScreenWrapper';
 import Typo from '@/components/Typo';
 import { Colors } from '@/constants/theme';
+import { useAuthStore } from '@/store/authStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const Login = () => {
+    const router = useRouter();
+    const { user, isLoading, login } = useAuthStore();
     const [showPassword, setShowPassword] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async () => {
+        if (!email || !password) {
+          Alert.alert("Validation Error", "Email and password are required");
+          return;
+        }
+
+        const result = await login(email, password);
+        if (!result.success) {
+            Alert.alert("Error", result.error);
+            return;
+        }
+
+        // if login successful, navigate to main app
+        if (result.success) {
+            router.replace("/(tabs)");
+        }
+    }
 
 
   return (
@@ -40,6 +73,11 @@ const Login = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={email}
+            onChangeText={setEmail}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -52,6 +90,8 @@ const Login = () => {
             style={styles.textInput} 
             placeholder="Password"
             secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
         />
         <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
@@ -70,27 +110,27 @@ const Login = () => {
       </TouchableOpacity>
 
       <View style={styles.signInBtnContainer}>
-        <Link href="/(tabs)/profile" asChild>
-            <TouchableOpacity
-                style={styles.signInBtn}
+        <TouchableOpacity
+            style={styles.signInBtn}
+            onPress={handleLogin}
+            disabled={isLoading}
+        >
+            <Typo size={18} fontWeight="700" color={Colors.light.text.default}>
+                Sign In 
+            </Typo>
+            <LinearGradient
+                colors={['#F97794', '#623AA2']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.arrowBtn}
             >
-                <Typo size={18} fontWeight="700" color={Colors.light.text.default}>
-                    Sign In 
-                </Typo>
-                <LinearGradient
-                    colors={['#F97794', '#623AA2']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.arrowBtn}
-                >
-                    <Ionicons
-                        name="arrow-forward"
-                        size={34}
-                        color={Colors.light.background}
-                    />
-                </LinearGradient>
-            </TouchableOpacity>
-        </Link>
+                <Ionicons
+                    name="arrow-forward"
+                    size={34}
+                    color={Colors.light.background}
+                />
+            </LinearGradient>
+        </TouchableOpacity>
       </View>
       <View
         style={styles.createAccountText}
@@ -119,6 +159,11 @@ const Login = () => {
             style={styles.bottomLeftVector}
         />
       </View>
+      {isLoading && (
+        <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="#F97794" />
+        </View>
+      )}
     </ScreenWrapper>
   )
 }
@@ -200,4 +245,16 @@ const styles = StyleSheet.create({
         height: 300,
         width: 200
     },
+    loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(255,255,255,0.9)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,     // iOS
+        elevation: 20,    // Android 🔑
+    },      
 })

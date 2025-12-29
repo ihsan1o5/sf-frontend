@@ -20,6 +20,8 @@ export type CardProps = {
     icon?: keyof typeof Ionicons.glyphMap;
     title?: string;
     caption?: string;
+    beneficiary?: string;
+    dueDate?: string;
 };
 
 export type QuickActionBtnProps = {
@@ -33,3 +35,9 @@ export type HorizontalWidgetProps = {
     icon?: keyof typeof Ionicons.glyphMap;
     date?: string;
 }
+
+export type PayDialogProps = {
+    isVisible: boolean;
+    onClose: () => void;
+    // onSubmit: (amount: string) => void;
+}; 
