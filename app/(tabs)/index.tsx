@@ -4,10 +4,50 @@ import Typo from '@/components/Typo'
 import { Colors } from '@/constants/theme'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
-import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native'
+
+import { formatPublishedDate } from '@/lib/utils'
+import { useAuthStore } from '@/store/authStore'
+import { useStudentStore } from '@/store/studentStore'
 
 const Home = () => {
+    const token = useAuthStore(state => state.token);
+
+    const students = useStudentStore(state => state.students);
+    const isLoading = useStudentStore(state => state.isLoading);
+    const isRefreshing = useStudentStore(state => state.isRefreshing);
+    const page = useStudentStore(state => state.page);
+    const hasMore = useStudentStore(state => state.hasMore);
+    const fetchStudents = useStudentStore(state => state.fetchStudents);
+
+    const handleLoadMore = () => {
+        if (isLoading || !hasMore) return;
+        fetchStudents(token, page + 1);
+    };
+
+    const handleRefresh = () => {
+        if (isLoading) return; 
+        fetchStudents(token, 1, true);
+    };
+
+    useEffect(() => {
+        if (!token) return;
+        fetchStudents(token, 1, true);
+    }, [token, fetchStudents]);
+
+    const renderItem = ({ item }: any) => (
+        <Card
+            color={Colors.light.primary}
+            icon="person"
+            title={item.fee.$numberDecimal}
+            caption={item.remarks}
+            beneficiary={item.school?.name}
+            dueDate={formatPublishedDate(item.createdAt)}
+            toAccount={item.school?.account?._id}
+            toUser={item.school?._id}
+        />
+    );
 
   return (
     <ScreenWrapper>
@@ -56,69 +96,47 @@ const Home = () => {
             </View>
         </LinearGradient>
         <View style={styles.homeScreenListContainer}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-            >
-                <View
-                    style={styles.cardContainer}
-                >
-                    <Card 
-                        color={Colors.light.primary}
-                        icon="document-attach"
-                        title="2,184"
-                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
-                        beneficiary="ABC School"
-                        dueDate="12 Dec 2024"
-                    />
-
-                    <Card 
-                        color={Colors.light.primary}
-                        icon="document-attach"
-                        title="2,184"
-                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
-                        beneficiary="ABC School"
-                        dueDate="12 Dec 2024"
-                    />
-
-                    <Card 
-                        color={Colors.light.primary}
-                        icon="document-attach"
-                        title="2,184"
-                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
-                        beneficiary="ABC School"
-                        dueDate="12 Dec 2024"
-                    />
-
-                    <Card 
-                        color={Colors.light.primary}
-                        icon="document-attach"
-                        title="2,184"
-                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
-                        beneficiary="ABC School"
-                        dueDate="12 Dec 2024"
-                    />
-
-                    <Card 
-                        color={Colors.light.primary}
-                        icon="document-attach"
-                        title="2,184"
-                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
-                        beneficiary="ABC School"
-                        dueDate="12 Dec 2024"
-                    />
-
-                    <Card 
-                        color={Colors.light.primary}
-                        icon="document-attach"
-                        title="2,184"
-                        caption="Total fee due for the month of December, please make the payment before due date to avoid late fee charges."
-                        beneficiary="ABC School"
-                        dueDate="12 Dec 2024"
-                    />
-                </View>
-                
-            </ScrollView>
+            {students.length > 0 || !isLoading ? (
+                <FlatList
+                    data={students}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item._id}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isRefreshing}
+                        onRefresh={handleRefresh}
+                        tintColor={Colors.light.primary}
+                        />
+                    }
+                    onEndReached={handleLoadMore}
+                    onEndReachedThreshold={0.4}
+                    contentContainerStyle={
+                        students.length === 0
+                        ? { flex: 1 } // makes empty container take full height
+                        : styles.cardContainer
+                    }
+                    ListEmptyComponent={
+                        !isLoading ? (
+                            <View style={styles.emptyContainer}>
+                                <Ionicons name="document-outline" size={60} color="#999" />
+                                <Typo size={18} fontWeight="700">No invoices found</Typo>
+                            </View>
+                        ) : null
+                    }
+                    ListFooterComponent={
+                        isLoading && hasMore ? (
+                            <ActivityIndicator size="small" color={Colors.light.primary} />
+                        ) : null
+                    }
+                />
+            ) : null}
         </View>
+        {isLoading && (
+            <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color="#F97794" />
+            </View>
+        )}
     </ScreenWrapper>
   )
 }
@@ -180,6 +198,7 @@ const styles = StyleSheet.create({
         gap: 10,
         paddingHorizontal: 5,
         marginBottom: 10,
+        paddingBottom: 20
     },
     quickActionText: {
         paddingHorizontal: 5,
@@ -195,5 +214,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         justifyContent: 'center',
         paddingBottom: 40
-    }
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(255,255,255,0.9)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,     // iOS
+        elevation: 20,    // Android 🔑
+    },
 })

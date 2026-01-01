@@ -7,13 +7,14 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Alert, FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { SvgUri } from 'react-native-svg'
 
 import { useAuthStore } from '@/store/authStore'
 
 const Profile = () => {
     const profileWidgets = profileItems;
     const router = useRouter();
-    const { logout } = useAuthStore();
+    const { logout, user } = useAuthStore();
 
     const handleLogout = () => {
         Alert.alert(
@@ -36,6 +37,13 @@ const Profile = () => {
           { cancelable: true }
         );
     };      
+
+    const isSvg =
+        typeof user?.profileImage === 'string' &&
+        (
+            user.profileImage.includes('/svg') ||
+            user.profileImage.includes('format=svg')
+        );
 
     const renderItem = ({item}: any) => (
         <View>
@@ -70,18 +78,30 @@ const Profile = () => {
             style={styles.profileImageContainer}
         >
             <View style={styles.profileImagePlaceholder}>
-                <Image 
-                    source={require('../../assets/images/profile.png')} 
-                    style={styles.profileImage}
-                    resizeMode="cover"
-                />
+                {isSvg ? (
+                    <SvgUri
+                        uri={user.profileImage}
+                        width="100%"
+                        height="100%"
+                    />
+                ) : (
+                    <Image
+                        source={
+                            user?.profileImage
+                            ? { uri: user.profileImage }
+                            : require('../../assets/images/profile.png')
+                        }
+                        style={styles.profileImage}
+                        resizeMode="cover"
+                    />
+                )}
             </View>
             <View style={{ marginTop: 10, alignItems: 'center', marginBottom: 30 }}>
                 <Typo size={18} fontWeight="700" color={Colors.light.text.light}>
-                    John Doe 
+                    {user?.name || 'Saeed Ahmad'}
                 </Typo>
                 <Typo size={18} color={Colors.light.text.gray}>
-                    15606-12345AB-C
+                    {user?.cnic || ''}
                 </Typo>
             </View>
         </LinearGradient>

@@ -22,6 +22,8 @@ export type CardProps = {
     caption?: string;
     beneficiary?: string;
     dueDate?: string;
+    toAccount?: string;
+    toUser?: string;
 };
 
 export type QuickActionBtnProps = {
@@ -38,6 +40,17 @@ export type HorizontalWidgetProps = {
 
 export type PayDialogProps = {
     isVisible: boolean;
+    method: 'easypaisa' | 'jazzcash';
     onClose: () => void;
-    // onSubmit: (amount: string) => void;
+    handleSubmit: (
+        account: string,
+        title: string
+    ) => Promise<{ success: boolean; error?: string }>;
 }; 
+
+export type InvoiceDialogProps = {
+    isVisible: boolean;
+    onClose: () => void;
+}
+
+export type Step = 'account' | 'otp' | 'success';
