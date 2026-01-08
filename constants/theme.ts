@@ -23,7 +23,7 @@ export const Colors = {
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
-    border: '#687076',
+    border: '#c7c7c7',
   },
   dark: {
     primary: '#F97794',

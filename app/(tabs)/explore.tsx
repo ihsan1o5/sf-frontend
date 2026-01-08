@@ -8,10 +8,12 @@ import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, TouchableOpaci
 
 import { useAuthStore } from '@/store/authStore'
 import { useTransactionStore } from '@/store/transactionStore'
+import { Invoice } from '@/types'
 
 
 const Explore = () => {
     const [isInvoiceDialogVisible, setIsInvoiceDialogVisible] = useState(false)
+    const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
     const token = useAuthStore(state => state.token);
     const transactions = useTransactionStore(state => state.transactions);
@@ -40,7 +42,10 @@ const Explore = () => {
         <View>
             <TouchableOpacity
                 style={styles.itemWidget}
-                onPress={() => setIsInvoiceDialogVisible(true)}
+                onPress={() => {
+                    setIsInvoiceDialogVisible(true);
+                    setSelectedInvoice(item);
+                }}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10 }}>
                     <Ionicons 
@@ -112,6 +117,7 @@ const Explore = () => {
         <InvoiceDialog
             isVisible={isInvoiceDialogVisible}
             onClose={() => setIsInvoiceDialogVisible(false)}
+            invoice={selectedInvoice}
         />
     </ScreenWrapper>
   )

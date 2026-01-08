@@ -7,6 +7,7 @@ export const useStudentStore = create((set, get) => ({
   isRefreshing: false,
   page: 1,
   hasMore: true,
+  totalStudents: 0,
 
   fetchStudents: async (token, page = 1, refresh = false) => {
     if (!token) return;
@@ -55,6 +56,7 @@ export const useStudentStore = create((set, get) => ({
           students: uniqueStudents,
           page,
           hasMore: page < data.pagination.totalPages,
+          totalStudents: data.pagination.total
         };
       });
     } catch (error) {
@@ -74,5 +76,6 @@ export const useStudentStore = create((set, get) => ({
       hasMore: true,
       isLoading: false,
       isRefreshing: false,
+      totalStudents: 0,
     }),
 }));

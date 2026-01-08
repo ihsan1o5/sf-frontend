@@ -49,6 +49,7 @@ const Profile = () => {
         <View>
             <TouchableOpacity
                 style={styles.itemWidget}
+                onPress={()=>router.replace(item.route)}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                     <Ionicons 

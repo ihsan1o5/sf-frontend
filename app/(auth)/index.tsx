@@ -56,10 +56,12 @@ const Login = () => {
             style={styles.topImage}
         />
       </View>
-      <View style={styles.helloContainer}>
-        <Typo size={70} color='black' style={styles.helloText}>
-            Hello 
-        </Typo>
+      <View style={styles.logoContainer}>
+        <Image 
+            source={require("../../assets/images/oxi-wide-logo.png")} 
+            style={styles.logoImage}
+            resizeMode="contain"
+        />
       </View>
       <View>
         <Typo size={18} style={styles.signInText}>Sign in to your account!</Typo>
@@ -74,6 +76,7 @@ const Login = () => {
             style={styles.textInput} 
             placeholder="Email"
             keyboardType="email-address"
+            placeholderTextColor={Colors.light.text.gray}
             autoCapitalize="none"
             autoCorrect={false}
             value={email}
@@ -89,6 +92,7 @@ const Login = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Password"
+            placeholderTextColor={Colors.light.text.gray}
             secureTextEntry={!showPassword}
             value={password}
             onChangeText={setPassword}
@@ -180,7 +184,15 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 130
     },
-    helloContainer: {},
+    logoContainer: {
+        width: '100%',
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    logoImage: {
+        width: '80%',
+        height: 80
+    },
     helloText: {
         textAlign: 'center',
         fontWeight: "500",

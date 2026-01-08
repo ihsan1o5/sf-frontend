@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/theme';
 import { PayDialogProps, Step } from '@/types';
 import { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -90,22 +91,24 @@ export default function PayDialog({
                 <Dialog.Content>
                 {step === 'account' ? (
                     <TextInput
-                    label="Account Number"
-                    value={account}
-                    onChangeText={(text) => {
-                        setAccount(text);
-                    }}
-                    keyboardType="number-pad"
-                    style={{ backgroundColor: 'transparent' }}
+                        label="Account Number"
+                        placeholderTextColor={Colors.light.text.gray}
+                        value={account}
+                        onChangeText={(text) => {
+                            setAccount(text);
+                        }}
+                        keyboardType="number-pad"
+                        style={{ backgroundColor: 'transparent' }}
                     />
                 ) : (
                     <TextInput
-                    label="OTP / PIN"
-                    value={otp}
-                    onChangeText={setOtp}
-                    keyboardType="number-pad"
-                    secureTextEntry
-                    style={{ backgroundColor: 'transparent' }}
+                        label="OTP / PIN"
+                        placeholderTextColor={Colors.light.text.gray}
+                        value={otp}
+                        onChangeText={setOtp}
+                        keyboardType="number-pad"
+                        secureTextEntry
+                        style={{ backgroundColor: 'transparent' }}
                     />
                 )}
                 </Dialog.Content>

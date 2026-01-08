@@ -82,6 +82,7 @@ const Register = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Full Name"
+            placeholderTextColor={Colors.light.text.gray}
             value={name}
             onChangeText={setName}
         />
@@ -96,6 +97,7 @@ const Register = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Email"
+            placeholderTextColor={Colors.light.text.gray}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -113,6 +115,7 @@ const Register = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="CNIC (without dashes)"
+            placeholderTextColor={Colors.light.text.gray}
             value={cnic}
             onChangeText={setCnic}
             keyboardType="number-pad"
@@ -128,6 +131,7 @@ const Register = () => {
         <TextInput 
             style={styles.textInput} 
             placeholder="Password"
+            placeholderTextColor={Colors.light.text.gray}
             secureTextEntry={!showPassword}
             value={password}
             onChangeText={setPassword}

@@ -17,13 +17,15 @@ export type TypoProps = {
 
 export type CardProps = {
     color?: string;
-    icon?: keyof typeof Ionicons.glyphMap;
+    studentName?: string;
     title?: string;
-    caption?: string;
     beneficiary?: string;
     dueDate?: string;
+    forMonth?: string;
+    forYear?: string;
     toAccount?: string;
     toUser?: string;
+    invoiceId?: string;
 };
 
 export type QuickActionBtnProps = {
@@ -48,9 +50,37 @@ export type PayDialogProps = {
     ) => Promise<{ success: boolean; error?: string }>;
 }; 
 
+export type Account = {
+    _id?: string;
+    accountNumber: string;
+    accountTitle: string;
+    bankName: string;
+};
+
+export type User = {
+    _id: string;
+    email: string;
+    name: string;
+};
+
+export type Invoice = {
+    _id: string;
+    amount: number;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+
+    fromAccount: Account;
+    toAccount: Account;
+
+    fromUser: User;
+    toUser: User;
+};
+
 export type InvoiceDialogProps = {
     isVisible: boolean;
     onClose: () => void;
+    invoice: Invoice | null;
 }
 
 export type Step = 'account' | 'otp' | 'success';

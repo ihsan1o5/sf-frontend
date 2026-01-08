@@ -12,9 +12,23 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
+
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor:
+        Colors[colorScheme ?? 'light'].tabIconDefault,
+
+        tabBarStyle: {
+            backgroundColor: Colors[colorScheme ?? 'light'].background,
+
+            // 🔥 REQUIRED FOR XIAOMI
+            elevation: 8,
+            position: 'absolute',
+
+            borderTopWidth: 1,
+            borderTopColor: Colors[colorScheme ?? 'light'].border,
+        },
       }}>
       <Tabs.Screen
         name="index"

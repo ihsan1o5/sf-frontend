@@ -1,8 +1,3 @@
 [
-    {"title": "Edit Profile", "icon": "person-add-outline", "action": "editProfile"},
-    {"title": "Change Password", "icon": "lock-closed", "action": "changePassword"},
-    {"title": "Switch to Payable", "icon": "accessibility-outline", "action": "switchToPayable"},
-    {"title": "Settings", "icon": "settings-sharp", "action": "settings"},
-    {"title": "Help & Support", "icon": "help-circle-outline", "action": "helpSupport"},
-    {"title": "History", "icon": "file-tray-stacked-outline", "action": "showHistory"}
+    {"title": "History", "icon": "file-tray-stacked-outline", "action": "showHistory", "route": "/(tabs)/explore"}
 ]

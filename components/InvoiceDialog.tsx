@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/theme'
+import { formatPublishedDate } from '@/lib/utils'
 import { InvoiceDialogProps } from '@/types'
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
@@ -6,7 +7,7 @@ import { StyleSheet, View } from 'react-native'
 import { Button, Dialog, Portal } from 'react-native-paper'
 import Typo from './Typo'
 
-export default function InvoiceDialog({isVisible, onClose}: InvoiceDialogProps) {
+export default function InvoiceDialog({isVisible, onClose, invoice}: InvoiceDialogProps) {
   return (
     <Portal>
         <Dialog visible={isVisible} dismissable={false}>
@@ -22,7 +23,7 @@ export default function InvoiceDialog({isVisible, onClose}: InvoiceDialogProps) 
                             Transaction Details
                         </Typo>
                         <Typo size={18}>
-                            12 Dec, 2025
+                            {formatPublishedDate(invoice?.createdAt)}
                         </Typo>
                     </View>
                 </Dialog.Title>
@@ -32,12 +33,12 @@ export default function InvoiceDialog({isVisible, onClose}: InvoiceDialogProps) 
                     <Typo size={18} color={Colors.light.text.gray}>
                         From 
                     </Typo>
-                    <View>
+                    <View style={{ alignItems: 'flex-end' }}>
                         <Typo size={24} fontWeight="700" color={Colors.light.text.dark}>
-                            M.Usama 
+                            {invoice?.fromUser?.name} 
                         </Typo>
                         <Typo size={18} color={Colors.light.text.gray}>
-                            123456789 
+                            {invoice?.fromAccount?.accountNumber} 
                         </Typo>
                     </View>
                 </View>
@@ -46,19 +47,56 @@ export default function InvoiceDialog({isVisible, onClose}: InvoiceDialogProps) 
                     <Typo size={18} color={Colors.light.text.gray}>
                         To 
                     </Typo>
-                    <View>
+                    <View style={{ alignItems: 'flex-end' }}>
                         <Typo size={24} fontWeight="700" color={Colors.light.text.dark}>
-                            Idrees
+                            {invoice?.toUser?.name}
                         </Typo>
                         <Typo size={18} color={Colors.light.text.gray}>
-                            123456789 
+                            {invoice?.toAccount?.accountNumber} 
                         </Typo>
                     </View>
                 </View>
+
+                <View style={styles.bodySectionNoBorder}>
+                    <Typo size={18} color={Colors.light.text.gray}>
+                        Status
+                    </Typo>
+                    <View style={{ alignItems: 'flex-end' }}>
+                        <Typo size={20} color={Colors.light.secondary}>
+                            Paid 
+                        </Typo>
+                    </View>
+                </View>
+
+                <LinearGradient
+                    colors={['transparent', Colors.light.primary, 'transparent']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{
+                        height: 1,
+                        marginVertical: 20,
+                        marginHorizontal: -24,
+                    }}
+                />
+
+                <View style={styles.bodySectionNoBorder}>
+                    <View>
+                        <Typo size={18} color={Colors.light.text.gray}>
+                            Amount 
+                        </Typo>
+                        <Typo size={18} color={Colors.light.text.gray}>Debited</Typo>
+                    </View>
+                    <View style={{ alignItems: 'flex-end' }}>
+                        <Typo size={24} fontWeight="700" color={Colors.light.text.dark}>
+                            Rs. {invoice?.amount}
+                        </Typo>
+                    </View>
+                </View>
+
             </Dialog.Content>
 
             <Dialog.Actions>
-                <Button onPress={onClose}>Ok</Button>
+                <Button onPress={onClose}>Close</Button>
             </Dialog.Actions>
         </Dialog>
     </Portal>
@@ -79,5 +117,19 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderBottomColor: Colors.light.text.gray,
         paddingVertical: 10
+    },
+    bodySectionNoBorder: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 5
+    },
+    divider: {
+        borderBottomWidth: 5,
+        borderBottomColor: Colors.light.text.gray,
+        marginVertical: 20,
+        borderStyle: 'dotted',
+        marginHorizontal: -25
     }
 })

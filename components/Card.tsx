@@ -1,9 +1,8 @@
 import { Colors } from '@/constants/theme'
 import { CardProps } from '@/types'
-import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import PayDialog from './PayDialog'
 import PaymentMethodSheet from './PaymentMethodSheet'
 import Typo from './Typo'
@@ -11,7 +10,7 @@ import Typo from './Typo'
 import { useAuthStore } from '@/store/authStore'
 import { useTransactionStore } from "@/store/transactionStore"
 
-const Card = ({color, icon, title, caption, beneficiary, dueDate, toAccount, toUser}: CardProps) => {
+const Card = ({color, studentName, title, forMonth, forYear, beneficiary, dueDate, toAccount, toUser, invoiceId}: CardProps) => {
     const [methodSheetVisible, setMethodSheetVisible] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
     const [selectedMethod, setSelectedMethod] = useState<'easypaisa' | 'jazzcash' | null>(null);
@@ -35,6 +34,7 @@ const Card = ({color, icon, title, caption, beneficiary, dueDate, toAccount, toU
             toAccount,
             toUser,
             amount: title,
+            invoiceId
         });
 
         return result
@@ -63,26 +63,40 @@ const Card = ({color, icon, title, caption, beneficiary, dueDate, toAccount, toU
             <View
                 style={styles.cardTitleSection}
             >
-                <Ionicons 
-                    name={icon}
-                    size={64}
-                    color={color}
-                />
-                <View>
-                    <Typo size={24} fontWeight='700' color={Colors.light.text.default} style={{ marginTop: 10 }}>
-                        {beneficiary}
+                <View style={styles.imageHolder}>
+                    <Image 
+                        source={require("../assets/images/oxi-logo-cercle.png")} 
+                        resizeMode="contain"
+                        style={styles.logoImage}
+                    />
+                </View>
+                <View style={styles.userInfoContainer}>
+                    <Typo size={24} fontWeight='700' color={Colors.light.text.default}>
+                        Rs. {title}
                     </Typo>
-                    <Typo size={16} color={Colors.light.text.gray}>
-                        Due Date: {dueDate}
+                    <Typo size={16} fontWeight="700" color={Colors.light.text.gray}>
+                        Due Date: <Typo size={16} fontWeight="700" color={Colors.light.primary}>{dueDate}</Typo>
                     </Typo>
                 </View>
             </View>
+            <LinearGradient
+                colors={['transparent', Colors.light.primary, 'transparent']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{
+                    height: 1,
+                    marginVertical: 20,
+                    marginHorizontal: -24,
+                }}
+            />
             <Typo size={24} color={Colors.light.text.default} fontWeight='800'>
-                <Typo size={18} color={Colors.light.text.gray}>Amount: </Typo> {title}
+                <Typo size={20} fontWeight="700" color={Colors.light.text.gray}>Student: </Typo> {studentName}
             </Typo>
-            <View style={styles.divider}></View>
-            <Typo size={18} color={Colors.light.text.gray}>
-                {caption}
+            <Typo size={18} color={Colors.light.text.default} fontWeight='800'>
+                <Typo size={18} fontWeight="700" color={Colors.light.text.gray}>For: </Typo> {forMonth}, {forYear}
+            </Typo>
+            <Typo size={18} color={Colors.light.text.default} fontWeight='800'>
+                <Typo size={18} fontWeight="700" color={Colors.light.text.gray}>Bnfry: </Typo> {beneficiary}
             </Typo>
             <View>
                 <TouchableOpacity
@@ -129,7 +143,7 @@ const styles = StyleSheet.create({
     cardBody: {
         backgroundColor: '#fff',
         borderRadius: 18,
-        padding: 20,
+        padding: 10,
         elevation: 5,
     },
     cardTitleSection: {
@@ -137,6 +151,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+    },
+    imageHolder: {
+        width: '18%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    logoImage: {
+        width: '100%',
+        height: 50,
+        borderRadius: 50
+    },
+    userInfoContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: "flex-start",
+        alignItems: 'flex-start',
+        marginLeft: 10
     },
     divider: {
         height: 1,

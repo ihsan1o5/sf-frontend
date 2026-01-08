@@ -13,6 +13,7 @@ import { useStudentStore } from '@/store/studentStore'
 
 const Home = () => {
     const token = useAuthStore(state => state.token);
+    const user = useAuthStore(state => state.user);
 
     const students = useStudentStore(state => state.students);
     const isLoading = useStudentStore(state => state.isLoading);
@@ -20,6 +21,7 @@ const Home = () => {
     const page = useStudentStore(state => state.page);
     const hasMore = useStudentStore(state => state.hasMore);
     const fetchStudents = useStudentStore(state => state.fetchStudents);
+    const totalStudents = useStudentStore(state => state.totalStudents);
 
     const handleLoadMore = () => {
         if (isLoading || !hasMore) return;
@@ -39,13 +41,15 @@ const Home = () => {
     const renderItem = ({ item }: any) => (
         <Card
             color={Colors.light.primary}
-            icon="person"
+            studentName={item.name}
             title={item.fee.$numberDecimal}
-            caption={item.remarks}
+            forMonth={item.forMonth}
+            forYear={item.forYear}
             beneficiary={item.school?.name}
             dueDate={formatPublishedDate(item.createdAt)}
             toAccount={item.school?.account?._id}
             toUser={item.school?._id}
+            invoiceId={item._id}
         />
     );
 
@@ -62,7 +66,7 @@ const Home = () => {
             >
                 <View>
                     <Typo size={24} fontWeight="700">
-                        Hi, Saeed 👋
+                        Hi, {user?.name} 👋
                     </Typo>
                     <Typo size={18}>Welcome Back!</Typo>
                 </View>
@@ -89,7 +93,7 @@ const Home = () => {
                 <Typo size={16} color={Colors.light.text.light}>
                     You have{" "}
                     <Typo size={16} fontWeight="700" color={Colors.light.text.light}>
-                        24 new invoices
+                        {totalStudents ? totalStudents : 0} new invoices
                     </Typo>
                     {" "}to pay.
                 </Typo>
