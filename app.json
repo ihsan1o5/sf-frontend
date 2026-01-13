@@ -2,7 +2,10 @@
   "expo": {
     "name": "Oxi",
     "slug": "oxi",
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "updates": {
+      "enabled": false
+    },
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "sffrontend",
@@ -11,7 +14,7 @@
       "supportsTablet": true
     },
     "android": {
-        "versionCode": 1,
+        "versionCode": 3,
         "package": "com.ihsan.oxi",
         "adaptiveIcon": {
             "backgroundColor": "#E6F4FE",
